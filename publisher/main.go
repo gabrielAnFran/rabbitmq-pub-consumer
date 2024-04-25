@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	"github.com/gabrielAnFran/rabbitmq-pub-consumer/publisher/rabbit"
+	"publish/rabbit"
 
 	"go.uber.org/fx"
 )
@@ -13,17 +13,17 @@ func Register(lifeCycle fx.Lifecycle, rabbit *rabbit.RabbitModel) { // Define a 
 		OnStart: func(ctx context.Context) error { // Define uma função anônima a ser executada no início
 			return rabbit.StartConnect(ctx) // Chama o método StartConnect no RabbitModel
 		},
-		OnStop: nil, 
+		OnStop: nil,
 	})
 }
 
-//Isso cria uma nova aplicação FX (framework de injeção de dependência) que 
-// inclui o módulo do RabbitMQ e invoca a função Register. Em seguida, 
+// Isso cria uma nova aplicação FX (framework de injeção de dependência) que
+// inclui o módulo do RabbitMQ e invoca a função Register. Em seguida,
 // inicia a aplicação em segundo plano.
 func main() {
-	app := fx.New( 
-		rabbit.Module,      
+	app := fx.New(
+		rabbit.Module,
 		fx.Invoke(Register),
 	)
-	app.Start(context.Background()) 
+	app.Start(context.Background())
 }
