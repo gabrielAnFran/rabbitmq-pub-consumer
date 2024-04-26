@@ -10,4 +10,4 @@ services:
       - RABBITMQ_DEFAULT_USER=fran
       - RABBITMQ_DEFAULT_PASS=cinha
 
-# disclaimer: usei o docker compose para subir o container do RabbitMQ & pensando em subir os containers do pub e do consumer, que virou um to-do.
+# disclaimer: usei o docker compose para subir o container do RabbitMQ & pensando em subir os containers do pub e do consumer, (os outros containers viraram to-do)
