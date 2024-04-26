@@ -4,22 +4,9 @@ import (
 	"context"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-	"go.uber.org/fx"
 )
 
-type RabbitModel struct {
-}
-
-var Module = fx.Options(fx.Provide(NewRabbit))
-
-func NewRabbit() *RabbitModel {
-	return &RabbitModel{}
-}
-
-type RabbitInterface interface {
-}
-
-func (rabbitModel *RabbitModel) StartConnect(ctx context.Context) error {
+func StartConnect(ctx context.Context, message, queue *string) error {
 	connection, err := amqp.Dial("amqp://fran:cinha@localhost:5672")
 	if err != nil {
 		return err
@@ -31,7 +18,7 @@ func (rabbitModel *RabbitModel) StartConnect(ctx context.Context) error {
 	}
 	defer ch.Close()
 	mainQueue, err := ch.QueueDeclare(
-		"testinho",
+		*queue,
 		false,
 		false,
 		false,
@@ -50,7 +37,7 @@ func (rabbitModel *RabbitModel) StartConnect(ctx context.Context) error {
 		false,
 		amqp.Publishing{
 			ContentType: "text/plain",
-			Body:        []byte("batata"),
+			Body:        []byte(*message),
 		},
 	)
 

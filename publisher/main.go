@@ -5,25 +5,39 @@ import (
 
 	"publish/rabbit"
 
-	"go.uber.org/fx"
+	"github.com/gin-gonic/gin"
 )
 
-func Register(lifeCycle fx.Lifecycle, rabbit *rabbit.RabbitModel) { // Define a função Register que recebe fx.Lifecycle e RabbitModel como parâmetros
-	lifeCycle.Append(fx.Hook{ // Adiciona um hook ao ciclo de vida
-		OnStart: func(ctx context.Context) error { // Define uma função anônima a ser executada no início
-			return rabbit.StartConnect(ctx) // Chama o método StartConnect no RabbitModel
-		},
-		OnStop: nil,
-	})
+type Message struct {
+	Queue   string `json:"queue"`   // Nome da fila
+	Message string `json:"message"` // Conteúdo da mensagem
 }
 
-// Isso cria uma nova aplicação FX (framework de injeção de dependência) que
-// inclui o módulo do RabbitMQ e invoca a função Register. Em seguida,
-// inicia a aplicação em segundo plano.
 func main() {
-	app := fx.New(
-		rabbit.Module,
-		fx.Invoke(Register),
-	)
-	app.Start(context.Background())
+
+	// Inicializa o roteador Gin
+	router := gin.Default()
+	router.POST("/publish", publish)
+	gin.SetMode("debug")
+
+	// Inicia o servidor em localhost:8080
+	router.Run("localhost:8080")
+}
+
+func publish(c *gin.Context) {
+	var msg Message
+
+	// Faz o bind dos dados JSON para a struct Message
+	if err := c.ShouldBindJSON(&msg); err != nil {
+		panic(err)
+	}
+
+	// Inicia a conexão com o RabbitMQ e publica a mensagem
+	err := rabbit.StartConnect(context.Background(), &msg.Message, &msg.Queue)
+	if err != nil {
+		panic(err)
+	}
+
+	// Responde com mensagem de sucesso
+	c.JSON(200, gin.H{"message": "Mensagem enviada"})
 }
