@@ -1,6 +1,6 @@
 # Projeto RabbitMQ
 
-Este projeto contém um publisher RabbitMQ, um consumer e um docker-compose para levantar um serviço RabbitMQ.
+Este projeto contém um publisher RabbitMQ, um consumer e um docker-compose para levantar um serviço do RabbitMQ.
 
 ## Publisher
 
