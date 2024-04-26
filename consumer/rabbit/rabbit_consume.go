@@ -5,22 +5,9 @@ import (
 	"log"
 
 	amqp "github.com/rabbitmq/amqp091-go"
-	"go.uber.org/fx"
 )
 
-type RabbitModel struct {
-}
-
-var Module = fx.Options(fx.Provide(NewRabbit))
-
-func NewRabbit() *RabbitModel {
-	return &RabbitModel{}
-}
-
-type RabbitInterface interface {
-}
-
-func (rabbitModel *RabbitModel) ConsumeMessage(ctx context.Context) error {
+func ConsumeMessage(ctx context.Context) error {
 	conn, err := amqp.Dial("amqp://fran:cinha@localhost:5672/")
 	if err != nil {
 		return err

@@ -3,30 +3,16 @@ package main
 import (
 	"consume/rabbit"
 	"context"
-	"log"
-
-	"go.uber.org/fx"
+	"fmt"
 )
 
-func Register(lifeCycle fx.Lifecycle, rabbitModel *rabbit.RabbitModel) {
-	lifeCycle.Append(fx.Hook{
-		OnStart: func(ctx context.Context) error {
-			go func() {
-				err := rabbitModel.ConsumeMessage(ctx)
-				if err != nil {
-					log.Println(err)
-				}
-			}()
-			return nil
-		},
-		OnStop: nil,
-	})
-}
-
 func main() {
-	app := fx.New(
-		rabbit.Module,
-		fx.Invoke(Register),
-	)
-	app.Run()
+
+	var ctx context.Context
+	fmt.Println("Só de olho nessa fila...")
+	err := rabbit.ConsumeMessage(ctx)
+	if err != nil {
+		panic(err)
+	}
+
 }
