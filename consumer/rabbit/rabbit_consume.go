@@ -8,7 +8,7 @@ import (
 )
 
 func ConsumeMessage(ctx context.Context) error {
-	conn, err := amqp.Dial("amqp://fran:cinha@localhost:5672/")
+	conn, err := amqp.Dial("amqp://fran:cinha@localhost:5672/") // Aqui tu coloca o usuário e senha do RabbitMQ que voce setar... né, só pra avisar
 	if err != nil {
 		return err
 	}
@@ -19,7 +19,7 @@ func ConsumeMessage(ctx context.Context) error {
 	}
 	defer ch.Close()
 	mainQueue, err := ch.QueueDeclare(
-		"testinho",
+		"testinho", // Esse é o nome da minha fila, tu coloca o nome da tua
 		false,
 		false,
 		false,

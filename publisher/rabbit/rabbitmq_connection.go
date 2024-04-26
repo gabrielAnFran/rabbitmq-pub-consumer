@@ -7,7 +7,7 @@ import (
 )
 
 func StartConnect(ctx context.Context, message, queue *string) error {
-	connection, err := amqp.Dial("amqp://fran:cinha@localhost:5672")
+	connection, err := amqp.Dial("amqp://fran:cinha@localhost:5672") // Aqui tu coloca o usuário e senha do RabbitMQ que voce setar... né, só pra avisar
 	if err != nil {
 		return err
 	}
