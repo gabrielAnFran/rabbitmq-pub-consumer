@@ -9,7 +9,7 @@ import (
 func main() {
 
 	var ctx context.Context
-	fmt.Println("Só de olho nessa fila...")
+	fmt.Println("Só de olho nessa fila....")
 	err := rabbit.ConsumeMessage(ctx)
 	if err != nil {
 		panic(err)
