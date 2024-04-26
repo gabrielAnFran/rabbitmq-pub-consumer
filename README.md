@@ -7,14 +7,16 @@ Este projeto contém um publisher RabbitMQ, um consumer e um docker-compose para
 Para rodar o publisher que levanta um servidor que recebe a mensagem em localhost:8080/publish, siga os passos abaixo:
 
 1. Navegue até o diretório do publisher.
-2. `go run main.go`
+2. `go mod tidy`
+3. `go run main.go`
 
 ## Consumer
 
 O consumer consome da fila "testinho". Para executar o consumer, siga as instruções:
 
 1. Vá para o diretório do consumer.
-2. `go run main.go`
+2. `go mod tidy`
+3. `go run main.go`
 
 ## Instância do RabbitMQ
 
