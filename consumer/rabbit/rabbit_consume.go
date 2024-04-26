@@ -44,7 +44,7 @@ func ConsumeMessage(ctx context.Context) error {
 	}
 	go func() {
 		for message := range messageChannel {
-			log.Printf("Mensagem recebida: %s", string(message.Body))
+			log.Printf("Mensagem recebida: %s", string(message.Body)) // Aqui tu faz o que tu quiser com a mensagem recebida, no meu caso só printei
 		}
 	}()
 	select {}
