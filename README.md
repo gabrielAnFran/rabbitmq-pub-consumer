@@ -1,43 +1,44 @@
-# Projeto RabbitMQ
+# RabbitMQ Project
 
-Este projeto contém um publisher RabbitMQ, um consumer e um docker-compose para levantar um serviço do RabbitMQ.
+This project contains a RabbitMQ publisher, a consumer, and a docker-compose file to set up a RabbitMQ service.
+
+## Running the Project
+
+To run the entire project, including the publisher, consumer, and RabbitMQ service, follow these steps:
+
+1. Make sure Docker is installed.
+2. Navigate to the project directory.
+3. Run `docker compose up`.
+
+This will start all services as defined in the `docker-compose.yml` file.
 
 ## Publisher
 
-Para rodar o publisher que levanta um servidor que recebe a mensagem em localhost:8080/publish, siga os passos abaixo:
-
-1. Navegue até o diretório do publisher.
-2. `go mod tidy`
-3. `go run main.go`
+The publisher is configured in the `docker-compose.yml` to run in a Docker container named `publisher_service`, exposed on port 8080.
 
 ## Consumer
 
-O consumer consome da fila "testinho". Para executar o consumer, siga as instruções:
+The consumer is configured in the `docker-compose.yml` to run in a Docker container named `consumer_service`, exposed on port 8082.
 
-1. Vá para o diretório do consumer.
-2. `go mod tidy`
-3. `go run main.go`
+## RabbitMQ Instance
 
-## Instância do RabbitMQ
+The `docker-compose.yml` file defines the configuration of a RabbitMQ service in a Docker environment using the `rabbitmq:management` image. It sets up a container named `test_rabbitmq` with ports 5672 and 15672 exposed, and sets the environment variables `RABBITMQ_DEFAULT_USER` to `fran` and `RABBITMQ_DEFAULT_PASS` to `cinha`.
 
-O arquivo docker-compose.yml define a configuração de um serviço RabbitMQ em um ambiente Docker usando a imagem rabbitmq:management. Ele configura um contêiner chamado test_rabbitmq com portas expostas 5672 e 15672, e define as variáveis de ambiente RABBITMQ_DEFAULT_USER como fran e RABBITMQ_DEFAULT_PASS como cinha.
+## Networks
 
-1. Certifique-se de ter o Docker instalado.
-2. Navegue até o diretório do projeto.
-3. `docker compose up` 
+The services are configured to use a Docker network called `my_network`, which uses the `bridge` driver.
 
-## Teste
+## Testing
 
-Para testar o funcionamento, utilize o seguinte comando curl:
-
+To test the functionality, use the following curl http action, which can be found in `publisher/test.http`:
 
 ```bash
-curl --location 'http://localhost:8080/publish' \
---header 'Content-Type: application/json' \
---data '
+POST http://localhost:8080/publish
+Content-Type: application/json
+
 {
-"queue": "testinho",
-"message": "{\"queue\":\"testinho\",\"message\": \"test\"}"
+    "queue": "testinho",
+    "message": "Good good not bad bad!"
 }
-'
+
 ```
