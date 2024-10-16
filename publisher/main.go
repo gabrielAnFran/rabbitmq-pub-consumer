@@ -21,7 +21,7 @@ func main() {
 	gin.SetMode("debug")
 
 	// Inicia o servidor em localhost:8080
-	router.Run("localhost:8080")
+	router.Run(":8080")
 }
 
 func publish(c *gin.Context) {

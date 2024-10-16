@@ -1,0 +1,9 @@
+### Test POST /publish
+POST http://localhost:8080/publish
+Content-Type: application/json
+
+{
+    "queue": "testinho",
+    "message": "Good good not bad bad!"
+}
+

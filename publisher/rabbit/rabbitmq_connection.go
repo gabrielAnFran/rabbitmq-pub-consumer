@@ -2,14 +2,15 @@ package rabbit
 
 import (
 	"context"
+	"fmt"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 func StartConnect(ctx context.Context, message, queue *string) error {
-	connection, err := amqp.Dial("amqp://fran:cinha@localhost:5672") // Aqui tu coloca o usuário e senha do RabbitMQ que voce setar... né, só pra avisar
+	connection, err := amqp.Dial("amqp://fran:cinha@rabbitmq:5672") // Aqui tu coloca o usuário e senha do RabbitMQ que voce setar... né, só pra avisar
 	if err != nil {
-		return err
+		fmt.Println(err.Error())
 	}
 	defer connection.Close()
 	ch, err := connection.Channel()
